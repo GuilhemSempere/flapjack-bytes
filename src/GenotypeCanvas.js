@@ -1146,6 +1146,7 @@ export default class GenotypeCanvas {
 
     // Reset the position
     this.moveToPosition(0, 0);
+    this.updateScrollBars();
 
     if (this.lineSort.setChromosomes !== undefined){
       this.lineSort.setChromosomes([chromosomeIndex]);

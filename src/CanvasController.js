@@ -509,8 +509,8 @@ export default class CanvasController {
     // relative to the allele canvas
     const rect = this.genotypeCanvas.canvas.getBoundingClientRect();
     const alleleCanvasWidth = this.genotypeCanvas.alleleCanvasWidth();
-    const { nameCanvasWidth } = this.genotypeCanvas;
-    const rectLeft = (rect.left + nameCanvasWidth);
+    const offset = this.genotypeCanvas.alleleCanvasXOffset;
+    const rectLeft = (rect.left + offset);
     // Calculate the x coordinate of the mouse on the allele canvas
     const x = (clientX - rectLeft) / (rect.right - rectLeft) * alleleCanvasWidth;
     // Move the vertical scrollbar to coorodinate x
