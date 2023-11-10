@@ -218,6 +218,7 @@ export default function GenotypeRenderer() {
         resizableDiv2.canvas.height = height2;
         resizableDiv2.backBuffer.height = height2;
       }
+      resizableDiv2.verticalScrollbar = new ScrollBar(resizableDiv2.alleleCanvasWidth() + resizableDiv2.alleleCanvasXOffset + resizableDiv2.scrollbarWidth, resizableDiv2.alleleCanvasHeight() + resizableDiv2.scrollbarHeight, resizableDiv2.scrollbarWidth, height2, true);
       resizableDiv2.horizontalScrollbar = new ScrollBar(resizableDiv2.alleleCanvasWidth(), height2, resizableDiv2.alleleCanvasWidth(), resizableDiv2.scrollbarHeight, false);
       genotypeCanvas.prerender(true);
       overviewCanvas.prerender(true);
@@ -245,7 +246,7 @@ export default function GenotypeRenderer() {
     
     const computedStyles = window.getComputedStyle(canvasHolder);
     const autoWidth = canvasHolder.clientWidth - parseInt(computedStyles.paddingLeft) - parseInt(computedStyles.paddingRight);
-    const width = (config.width === null) ? Math.max(autoWidth, config.minGenotypeAutoWidth) : config.width;
+    let width = (config.width === null) ? Math.max(autoWidth, config.minGenotypeAutoWidth) : config.width;
     let overviewWidth = (config.overviewWidth === null) ? Math.max(autoWidth, config.minOverviewAutoWidth) : config.overviewWidth;
 
     const settings = createSettings(config);
@@ -278,7 +279,8 @@ export default function GenotypeRenderer() {
       progressBarBackground.appendChild(labelContainer);
       canvasHolder.append(progressBarBackground);
     }
-
+    width = canvasHolder.getBoundingClientRect().width;
+    overviewWidth = canvasHolder.getBoundingClientRect().width;
     genotypeCanvas = new GenotypeCanvas(width, config.height, boxSize);
     genotypeCanvas.canvas.id = 'genotypeCanvas';
     canvasHolder.append(genotypeCanvas.canvas);
@@ -292,7 +294,7 @@ export default function GenotypeRenderer() {
 
     if (!overviewWidth) overviewWidth = width;
     if (!config.overviewHeight) config.overviewHeight = 200;
-
+    config.overviewHeight = window.innerHeight - canvasHolder.getBoundingClientRect().bottom + 20;
     overviewCanvas = new OverviewCanvas(overviewWidth, config.overviewHeight);
     overviewCanvas.canvas.id = 'overviewCanvas';
     canvasHolder.append(overviewCanvas.canvas);
